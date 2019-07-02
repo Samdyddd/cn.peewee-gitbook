@@ -1,11 +1,12 @@
-# 安装和测试<div id="introduce"></div>
+# 快速开始<div id="introduce"></div>
 
-大多数用户只想安装PyPi上托管的最新版本：
+该文档简要介绍了peewee的主要功能。本指南将涵盖：
 
-```python
-pip install peewee
+* [模型定义（Model Definition）]()
+* [存储数据（Storing data）]()
+* [检索数据（Retrieving Data）]()
 
-```
+> 如果你想要更加丰富多彩的东西，可以使用peewee和flask框架创建一个"twitter"风格的web应用程序。在项目examples/文件夹中，可以找到更多自包含的peewee例子，例如博客应用程序。
 
 
 
