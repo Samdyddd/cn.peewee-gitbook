@@ -10,15 +10,15 @@ Peewee是一个简单而小巧的orm。它具有很少（但富有表现力）�
 
 ![](/assets/mysql.png) ![](/assets/postgresql.png) ![](/assets/sqlite.png)
 
-Peewee的源代码[github地址](https: www.com)。
+Peewee的源代码[github地址](https://github.com/coleifer/peewee)。
 
 # 新手快速开始：
-* 快速开始
-* twitter app例子
-* 使用peewee 交互式
-* 数据库模型和字段（Models and fields）
-* 数据库查询（Querying）
-* 数据库关系和连接（Relationships and joins）
+* [快速开始](https://www.baidu.com)
+* [twitter app例子](https://www.baidu.com)
+* [使用peewee 交互式](https://www.baidu.com)
+* [数据库模型和字段（Models and fields）](https://www.baidu.com)
+* [数据库查询（Querying）](https://www.baidu.com)
+* [数据库关系和连接（Relationships and joins）](https://www.baidu.com)
 
 # 目录
 
