@@ -271,7 +271,83 @@ for person in query:
 ```
 > peewee 提供了一个神奇的帮手`fn()`，可用于调用任何SQL函数。在上面的示例中，`fn.COUNT(Pet.id).alias('pet_count')`将被转换为`COUNT(pet.id) as pet_count`
 
+现在让我们列出所有人和他们所有宠物的名字。如果我们不小心，这很容易变成N+1的情况。
+在深入代码之前，请考虑这个示例与前面列出所有宠物及其所有者名称的示例有何不同。
+一只宠物只能有一个主人，所以当我们从Pet到Person进行连接时，总会有一个匹配。
+但是，当我们从Person到Pet连接时，情况又不同了，因为一个人可能没有宠物或他们有几只宠物。
+因为我们正在使用关系数据库，如果我们要从Person到Pet进行连接，那么每个有多个宠物的人都会被重复每个宠物一次。
 
+像以下代码：
+```python
+query = (Person
+        .select(Person, Pet)
+        .join(Pet, JOIN.LEFT_OUTER)
+        .order_by(Person.name, Pet.name))
+for person in query:
+  # 检查每个人是否都有宠物，不是所有人都有
+  if hasattr(person, 'pet')
+    print(person.name, person.pet.name)
+  else:
+    print(person.name, 'no pets')
+# Bob Fido
+# Bob Kitty
+# Grandma L. no pets
+# Herb Mittens Jr
+```
+
+通常这种类型的副本是不合需要的。为了适应列出一个人并附加该人的宠物列表的更常见的工作流程，我们使用一种名为`prefetch()`的特殊方法：
+
+```python
+query = Person.select().order_by(Person.name).prefetch(Pet)
+for person in query:
+  print(person.name)
+  for pet in person.pets:
+    print ('*', pet.name)
+
+# Bob
+# *kitty
+# *Fido
+# Grandma L.
+# Herb
+# *Mittens Jr
+```
+
+# SQL 函数（SQL Functions）
+
+最后一个查询。这将使用SQL函数来查找名称以大写或小写‘G’开头的所有人：
+
+```python
+expression = fn.Lower(fn.Substr(Personname, 1, 1)) == 'g'
+for person in Person.select().where(expressiion):
+  print(person.name)
+# Grandma L.
+```
+
+这只是基础知识。你可以根据需要使查询变得复杂。有关信息，请查看有关查询文档。
+
+
+# 数据库(Database)
+
+我们完成数据库操作，让我们关闭连接。
+
+```python
+db.close()
+```
+
+> 在实际应用程序中，有一些已建立的模式可用于管理数据库连接生存期。
+例如，Web应用程序通常会在请求开始时打开连接，并在生成响应后关闭连接。
+连接池可以帮助消除与启动成本相关延迟。
+
+要了解有关设置数据库的信息，请参阅数据库文档，其中提供许多示例。peewee还支持在运行时配置数据库以及随时设置或更改数据库。
+
+## 使用现有数据库
+
+如果你已有数据库，可以使用模型生成器pwiz自动生成peewee模型。例如，我有一个名为charlesde 的postgresql数据库，可以运行：
+
+```python
+python -m pwiz -e postgresql charlesde > blog_models.py
+
+```
 
 
 
